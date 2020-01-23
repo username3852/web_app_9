@@ -1,0 +1,4 @@
+Hi {{ user.username }} account has been created successfully......
+
+To activate the link:
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
