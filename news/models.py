@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User # for author we have this model class named User
 from django.urls import reverse
+from django.conf import settings
 
 # Django-ORM (Object Relational Mapping)
 # the db use the same prefix of  the application name
@@ -21,7 +22,7 @@ class News(models.Model): #inherits the Model class from the models package (fro
   count = models.IntegerField(default=0) #initially 0 at the beginingS
   slug = models.SlugField(max_length = 255, null= True) #to get the same title as in the link
   category = models.ManyToManyField("Category", related_name="news_categories") # "Category" is string reprenting class whether it may be up or down 
-  author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True) # if in case user is deleted it will set null and should be True if null
+  author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True) # if in case user is deleted it will set null and should be True if null
   created_at = models.DateTimeField(auto_now_add=True) # only once inserted but not updatd later ==> auto_now_add
   updated_at = models.DateTimeField(auto_now=True) #can be updated ==>auto_now
   cover_image = models.ImageField(upload_to="news", null=True) #images cannot be stored in db so we make folder and give link and change in settings

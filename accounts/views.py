@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from accounts.tokens import activation_token
 
-from django.contrib.auth.models import User
+from accounts.models import User
 
 # Create your views here.
 

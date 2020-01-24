@@ -146,3 +146,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4' # first install the crispy eith version via 
 
 LOGIN_REDIRECT_URL = "/" #after login it will redirect to the home page
 
+AUTH_USER_MODEL = "accounts.User" 
+
