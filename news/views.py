@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404 #(for in case the category_id is changed or error occurs.. it is best practice to handle error)
+from django.shortcuts import render, HttpResponse, get_object_or_404 #(for in case the category_id is changed or error occurs.. it is best practice to handle error)
 from django.views import View # vanilla view
 from django.views.generic import (TemplateView,
  DeleteView, 
@@ -9,11 +9,16 @@ from django.views.generic import (TemplateView,
 )
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+# for comment section below used as decorators
+from django.contrib.auth.decorators import login_required 
+from django.views.decorators.http import require_http_methods
+
 from django.urls import reverse_lazy # for view we cqnnot only use reverse but reverse_lazy 
 from django.utils.text import slugify
 
 from news.forms import NewsCreateForm
-from news.models import Category, News # to give datas from models
+from news.models import Category, News, Comment # to give datas from models
 
 
 # Create your views here.
@@ -65,6 +70,7 @@ class NewsDetail(DetailView): #basically for the the detail news when clicked th
         self.object.count = self.object.count + 1
         self.object.save()
         context["popular_news"] = News.objects.order_by("-count")[:4] # recently added news first
+        context["comment_list"] = Comment.objects.filter(news=self.object)
         return context
 
 # defining the CREATE, UPDATE AND DELETE VIEW
@@ -103,3 +109,16 @@ class NewsDeleteView(LoginRequiredMixin, DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post(self, request, *args, **kwargs) # we are deleting the news via get request by returning post method
+
+
+@login_required(login_url="accounts/login")
+@require_http_methods(["POST"])
+def news_feedback(request, *args, **kwargs):
+    data = request.POST # pulling data from db as post method
+    news_id = kwargs.get("pk")
+    news = get_object_or_404(News, id = news_id)
+    # comment = Comment.objects.create(news=news, feedback=data["feedback"], commenter=request.user)
+    comment = Comment(news=news, feedback=data["feedback"], commenter=request.user)
+    comment.save()
+    template_name = "news/comments.html"
+    return render(request, template_name, {"comment":comment})

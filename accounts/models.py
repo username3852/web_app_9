@@ -10,6 +10,10 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = "username", "role", "first_name", "last_name"
 
+    def __str__(self):
+        return self.username
+    
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dbo = models.DateField(null=True)

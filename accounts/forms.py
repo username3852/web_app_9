@@ -10,17 +10,17 @@ class UserRegistrationForm(UserCreationForm):
     model   = User
     fields  = ("first_name", "last_name", "email", "username") #password is given default by django
 
-    def clean_email(self): # ie. each user is validated by the the email existing in the db . if already exist then not allowing it
+  def clean_email(self): # ie. each user is validated by the the email existing in the db . if already exist then not allowing it
       data = self.cleaned_data["email"]
       try:
         user_email = User.objects.get(email=data)
       except User.DoesNotExist:
-        pass
+        return data
       else:
         raise forms.ValidationError("Email already exist")
-
-      def clean_contact_no(self):
+  
+  def clean_contact_no(self):
         data = self.cleaned_data["contact_no"]
         for i in data:
           if not (i.isdigit()or i in "+-"):
-            raise forms.ValidationError("Invalid contact number")
+            raise forms.ValidationError("Invalid contact number")    

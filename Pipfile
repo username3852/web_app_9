@@ -9,6 +9,8 @@ pylint = "*"
 [packages]
 django = "==2.2.2"
 pillow = "==7.0.0"
+django-crispy-forms = "==1.8.1"
+python-dotenv = "==0.10.3"
 black = "*"
 
 [requires]

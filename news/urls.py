@@ -6,7 +6,8 @@ urlpatterns = [
     path("update/<pk>", views.NewsUpdateView.as_view(), name="update_news"),
     path("delete/<pk>", views.NewsDeleteView.as_view(), name="delete_news"),
     path("<category_id>/", views.CategoryNewsView.as_view(), name="category_news" ), # target header.html url link
-    path("<pk>/<slug>", views.NewsDetail.as_view(), name="single_news"),
+    path("<pk>/<slug>/", views.NewsDetail.as_view(), name="single_news"),
+    path("<pk>/<slug>/feedback/", views.news_feedback, name="feedback_news"),
 ]
 # Class-based views should be written like this... 
 #     1. Add an import:  from other_app.views import Home

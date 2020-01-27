@@ -11,16 +11,22 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv, find_dotenv # install the dotenv from the terminal or bash
+
+load_dotenv(find_dotenv())
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1a92pzlyz!h3dd&(e%ci85h+j3qp2=m*a4r^*pa!aghak%8lua'
+SECRET_KEY = os.getenv("SECRET_KEY")
+print(os.getenv("EMAIL_HOST_USER"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -138,9 +144,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # this is for the user registeration
 EMAIL_HOST = "smtp.mailtrap.io"
-EMAIL_HOST_USER = 'dd8b71aaf93d3c'
-EMAIL_HOST_PASSWORD = '47c5b67b5042d2'
-EMAIL_PORT = "2525"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4' # first install the crispy eith version via git bash and then add here
 
